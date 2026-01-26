@@ -1,0 +1,175 @@
+// Alert Button 
+const Practice = () => {
+    return(
+        <div>
+            <button onClick={alert("Bro What TF? ")}>Click Here</button>
+        </div>
+    );
+};
+
+export default Practice
+
+// Loop in React 
+const Practice = () => {
+    const fruits = ["Apple" , "Banana" , "Orange"]
+
+    return (
+        <div>
+            {fruits.map(
+                (item,index) =>{
+                   return <li key={index}>{item}</li>
+                }
+            )}
+        </div>
+    );
+};
+
+export default Practice;
+
+"If Else"
+
+const Practice = () => {
+
+const isLoggedIn = false
+    return (
+        <div>
+            {
+                isLoggedIn ? <button>Logout</button> : <button> Login </button>
+            };
+        </div>
+    );
+};
+export default Practice;
+
+"Immedietly Invoked Function"
+iif - That is used when you need to execute something Immedietly
+
+const Practice = () => {
+    const role = "student"
+    return (
+        <div>
+            {
+                (()=>{
+                    if(role === "admin"){
+                        return <h1>Hello, Admin</h1>
+                    } else if (role ==="student"){
+                        return <h1>Hello, Student</h1>
+                    } else if (role === "teacher"){
+                        return <h1>Hello, Teacher</h1>
+                    } else{
+                        return <h1>Hello , guest</h1>
+                    };
+                })()
+            }
+        </div>
+    );
+};
+
+export default Practice;
+const Practice = () => {
+    const isLoggedIn = false
+    return (
+        <div>
+            <h2>Hello</h2>
+            {
+                (()=>{
+                    if(isLoggedIn === true) {
+                        return <button>LOGOUT</button>
+                    }else {
+                        return <button>LOGIN</button>
+                    }
+                })()
+            }
+        </div>
+    );
+};
+
+export default Practice;
+
+Jsx Conditional using if else
+(Bad Practice)
+const Practice = () => {
+    const loginStatus = true
+        if (loginStatus) {
+            return (
+                <div>
+                    <button>LOGOUT</button>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <button>LOGIN</button>
+                </div>
+            );
+        }
+};
+
+export default Practice;
+(Standerd Practice)
+
+const Practice = () => {
+
+    const loginStatus = (status) =>{
+        if (status) {
+            return <button>LOGOUT</button>
+        } else {
+            return <button>LOGIN</button>
+        }
+    }
+    return (
+        <div>
+            {loginStatus(true)}
+        </div>
+    );
+};
+
+export default Practice;
+
+"Returning a view using SWITCH Case Statement"
+const Practice = () => {
+    const isLoggedIn = false
+    switch (isLoggedIn){
+        case true:
+            return <button>LOGOUT</button>
+        case false:
+            return <button>LOGIN</button>
+        default:
+            return null 
+    }
+};
+
+export default Practice;
+
+"Conditional Rendering using Ternary Operator"
+
+const Practice = () => {
+    const user = {isAdmin : true}
+
+    return (
+        <div>
+            <p>Hello</p>
+            {user.isAdmin ? <p>You are admin user</p> : <p>You are just a basic user </p> }        
+        </div>
+    );
+};
+
+export default Practice;
+
+"Conditional Rendering using Logical And And (& &)"
+const Practice = () => {
+    const isLoggedin = true ;
+
+    return (
+        <div>
+            <p>Hello</p>
+            {isLoggedin && <h1>Welcome back </h1> }
+        </div>
+    );
+};
+
+export default Practice;
+
+Passing Properties from parent to child a to chiled b to child c
+(data will pass only from parent to child , that will not flow ever from child to parent)
+
