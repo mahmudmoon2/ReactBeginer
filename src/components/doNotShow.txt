@@ -1,175 +1,269 @@
-// Alert Button 
-const Practice = () => {
-    return(
+1. Event Handling (The Alert Button)
+Important Fix: In your original code, onClick={alert(...)} calls the function immediately when the component loads. You must use an arrow function () => to wait for the click.
+
+JavaScript
+const AlertButton = () => {
+    // Correct way: use an arrow function to prevent immediate execution
+    return (
         <div>
-            <button onClick={alert("Bro What TF? ")}>Click Here</button>
+            <button onClick={() => alert("Bro What TF?")}>
+                Click Here
+            </button>
         </div>
     );
 };
 
-export default Practice
+export default AlertButton;
+2. Loops in React (Rendering Lists)
+Always remember to provide a unique key prop when mapping over arrays.
 
-// Loop in React 
-const Practice = () => {
-    const fruits = ["Apple" , "Banana" , "Orange"]
+JavaScript
+const FruitList = () => {
+    const fruits = ["Apple", "Banana", "Orange"];
 
     return (
         <div>
-            {fruits.map(
-                (item,index) =>{
-                   return <li key={index}>{item}</li>
-                }
-            )}
+            <h2>Fruit List</h2>
+            <ul>
+                {fruits.map((item, index) => {
+                    return <li key={index}>{item}</li>;
+                })}
+            </ul>
         </div>
     );
 };
 
-export default Practice;
-
-"If Else"
-
-const Practice = () => {
-
-const isLoggedIn = false
+export default FruitList;
+3. Conditional Rendering (Various Methods)
+A. The Ternary Operator (Best for simple toggles)
+JavaScript
+const TernaryExample = () => {
+    const isLoggedIn = false;
+    
     return (
         <div>
-            {
-                isLoggedIn ? <button>Logout</button> : <button> Login </button>
-            };
+            {/* Note: No semicolons inside JSX curly braces */}
+            {isLoggedIn ? <button>Logout</button> : <button>Login</button>}
         </div>
     );
 };
-export default Practice;
+B. Logical AND && (Show something or nothing)
+JavaScript
+const LogicalAnd = () => {
+    const isLoggedIn = true;
 
-"Immedietly Invoked Function"
-iif - That is used when you need to execute something Immedietly
-
-const Practice = () => {
-    const role = "student"
     return (
         <div>
-            {
-                (()=>{
-                    if(role === "admin"){
-                        return <h1>Hello, Admin</h1>
-                    } else if (role ==="student"){
-                        return <h1>Hello, Student</h1>
-                    } else if (role === "teacher"){
-                        return <h1>Hello, Teacher</h1>
-                    } else{
-                        return <h1>Hello , guest</h1>
-                    };
-                })()
-            }
+            <p>Hello User</p>
+            {isLoggedIn && <h1>Welcome back, Admin!</h1>}
         </div>
     );
 };
-
-export default Practice;
-const Practice = () => {
-    const isLoggedIn = false
-    return (
-        <div>
-            <h2>Hello</h2>
-            {
-                (()=>{
-                    if(isLoggedIn === true) {
-                        return <button>LOGOUT</button>
-                    }else {
-                        return <button>LOGIN</button>
-                    }
-                })()
-            }
-        </div>
-    );
-};
-
-export default Practice;
-
-Jsx Conditional using if else
-(Bad Practice)
-const Practice = () => {
-    const loginStatus = true
-        if (loginStatus) {
-            return (
-                <div>
-                    <button>LOGOUT</button>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <button>LOGIN</button>
-                </div>
-            );
-        }
-};
-
-export default Practice;
-(Standerd Practice)
-
-const Practice = () => {
-
-    const loginStatus = (status) =>{
+C. Using Helper Functions (Cleanest for complex logic)
+JavaScript
+const HelperFunction = () => {
+    
+    const renderAuthButton = (status) => {
         if (status) {
-            return <button>LOGOUT</button>
+            return <button>LOGOUT</button>;
         } else {
-            return <button>LOGIN</button>
+            return <button>LOGIN</button>;
         }
+    };
+
+    return (
+        <div>
+            {renderAuthButton(true)}
+        </div>
+    );
+};
+D. IIFE (Immediately Invoked Function Expression)
+Note: While valid, this is rarely used in modern React. Helper functions or Ternary operators are preferred for readability.
+
+JavaScript
+const IIFEExample = () => {
+    const role = "student";
+    
+    return (
+        <div>
+            {(() => {
+                if (role === "admin") return <h1>Hello, Admin</h1>;
+                else if (role === "student") return <h1>Hello, Student</h1>;
+                else return <h1>Hello, Guest</h1>;
+            })()}
+        </div>
+    );
+};
+4. Props: Passing Data (Parent to Child)
+Data flows one way: Downwards from Parent to Child.
+
+Parent Component
+This component holds the data and functions.
+
+JavaScript
+import React from 'react';
+import ChildComponent from './ChildComponent';
+
+const Parent = () => {
+    const appName = "My React App"; // Simple String
+    const user = { name: "John Doe", age: 25 }; // Object
+
+    const handleAlert = () => {
+        alert("Button clicked in Child, executed in Parent!");
+    };
+
+    return (
+        <div>
+            <h1>Parent Component</h1>
+            {/* Passing props to child */}
+            <ChildComponent 
+                title={appName} 
+                userDetails={user} 
+                onButtonClick={handleAlert} 
+            />
+        </div>
+    );
+};
+
+export default Parent;
+Child Component
+Receives data via props (or destructured directly).
+
+JavaScript
+// We destructure { title, userDetails, onButtonClick } from props
+const ChildComponent = ({ title, userDetails, onButtonClick }) => {
+    return (
+        <div style={{ border: '1px solid grey', padding: '10px', margin: '10px' }}>
+            <h3>Child Component</h3>
+            
+            {/* 1. Rendering passed String */}
+            <p>App Title: {title}</p>
+
+            {/* 2. Rendering passed Object */}
+            <p>User Name: {userDetails.name}</p>
+            <p>User Age: {userDetails.age}</p>
+
+            {/* 3. Using passed Function */}
+            <button onClick={onButtonClick}>
+                Click Me to Alert Parent
+            </button>
+        </div>
+    );
+};
+
+export default ChildComponent;
+5. Managing Forms (Submit Events)
+To handle forms, we usually prevent the default browser refresh behavior.
+
+JavaScript
+const SimpleForm = () => {
+    
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Prevents the page from reloading
+        alert("Form Submitted!");
+        console.log("Form logic goes here...");
+    };
+
+    return (
+        <div>
+            <h2>Login Form</h2>
+            <form onSubmit={handleSubmit}>
+                <input type="text" placeholder="Username" />
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    );
+};
+
+export default SimpleForm;
+
+
+useRef Hook : That is an built in React function that allows you to directly create a reference to the DOM element in your functional component.
+advantage of useRef over useState is that updating a ref does not trigger a re-render of the component. if there was any heavy execution happening during rendering, using useRef can help optimize performance by avoiding unnecessary re-renders.
+
+innerText property represents the "rendered" text content of a node and its descendants.
+import React, { useRef } from 'react';
+
+const Practice = () => {
+
+    let data = useRef();
+    
+    const handleClick = () => {
+            data.current.innerText = "Hello, I am updated using useRef!";
     }
     return (
         <div>
-            {loginStatus(true)}
+            <p ref={data}></p>
+            <button onClick={handleClick}>Click</button>
         </div>
     );
 };
 
 export default Practice;
 
-"Returning a view using SWITCH Case Statement"
+innerHTML property sets or returns the HTML content (inner HTML) of an element.
+import React, { useRef } from 'react';
+
 const Practice = () => {
-    const isLoggedIn = false
-    switch (isLoggedIn){
-        case true:
-            return <button>LOGOUT</button>
-        case false:
-            return <button>LOGIN</button>
-        default:
-            return null 
+
+    let data = useRef();
+    
+    const handleClick = () => {
+            data.current.innerHTML = "<ul><li>Apple</li><li>Orange</li></ul>";
     }
-};
-
-export default Practice;
-
-"Conditional Rendering using Ternary Operator"
-
-const Practice = () => {
-    const user = {isAdmin : true}
-
     return (
         <div>
-            <p>Hello</p>
-            {user.isAdmin ? <p>You are admin user</p> : <p>You are just a basic user </p> }        
+            <p ref={data}></p>
+            <button onClick={handleClick}>Click</button>
         </div>
     );
 };
 
 export default Practice;
 
-"Conditional Rendering using Logical And And (& &)"
-const Practice = () => {
-    const isLoggedin = true ;
+The example demonstrating the use of the useRef hook to modify the image src attribute to change the image displayed in an <img> element. is shown below:
 
+import React, { useRef } from 'react';
+
+const Practice = () => {
+    let data = useRef();
+    const handleClick = () => {
+        data.current.src = " https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpgetwp_mRh4hGgebBMF4p2zcAi5Z4lNiO9w&s"
+        data.current.setAttribute("height", 500);
+        data.current.setAttribute("width", 700);
+    }
+    
     return (
         <div>
-            <p>Hello</p>
-            {isLoggedin && <h1>Welcome back </h1> }
+            <img ref={data} height={500} width={700} src="https://t4.ftcdn.net/jpg/06/57/37/01/360_F_657370150_pdNeG5pjI976ZasVbKN9VqH1rfoykdYU.jpg" alt="" />
+            <button onClick={handleClick}>Click Here For the image</button>
         </div>
     );
 };
 
 export default Practice;
 
-Passing Properties from parent to child a to chiled b to child c
-(data will pass only from parent to child , that will not flow ever from child to parent)
+useRef working with input element
+import React, { useRef } from 'react';
+
+const Practice = () => {
+    const fName = useRef();
+    const lName = useRef();
+
+    const handleSubmit=()=>{
+        let firstName = fName.current.value;
+        let lastName = lName.current.value;
+        alert ( firstName + " " + lastName );
+    }
+    
+    return (
+        <div>
+            <input ref={fName} type="text" /> <br />
+            <input ref={lName} type="text" /> <br />
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
+    );
+};
+
+export default Practice;
 

@@ -1,16 +1,21 @@
-const Practice = () => {
+import { useRef } from 'react';
 
-    const submitData = (event) => {
-        event.preventDefault()
-        const Form = "Nothi"
-        alert(`${Form} Submitted Succesfully`);
+const Practice = () => {
+    const fName = useRef(); 
+    const lName = useRef();
+
+    const handleClick = () => {
+        let firstName = fName.current.value; 
+        let lastName = lName.current.value;
+        
+        alert(firstName + " " + lastName);
     }
+
     return (
         <div>
-            <form onSubmit={submitData}>
-                <input type="text"  placeholder="Write Here"/>
-                <button type="submit">Submit</button>
-            </form>
+            <input ref={fName} type="text" placeholder="First Name" /> <br />
+            <input ref={lName} type="text" placeholder="Last Name" /> <br />
+            <button onClick={handleClick}>Submit</button>
         </div>
     );
 };
