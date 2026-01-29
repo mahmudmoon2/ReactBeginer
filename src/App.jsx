@@ -10,11 +10,8 @@ const App = () => {
 
   return(
   <>
-    <Header />
-    <Slider />
+    
     <Practice/>
-    <ContactForm />
-    <Footer />
     
   </>
 );
